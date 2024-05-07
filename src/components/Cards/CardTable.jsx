@@ -6,6 +6,7 @@ import { getPosts } from "api";
 import { useHistory } from "react-router-dom";
 import { getPhotos } from "api";
 import { getAlbums } from "api";
+import { deletePosts } from "api";
 
 export default function CardTable({ color }) {
   const history = useHistory();
@@ -76,7 +77,7 @@ export default function CardTable({ color }) {
     },
     {
       title: "Action",
-      render: (user) => <a href={`/admin/post/${user.id}`}>Delete</a>,
+      render: (user) => <a onClick={() => deletePost(user.id)}>Delete</a>,
     },
   ];
   const columnsPhoto = [
@@ -98,7 +99,7 @@ export default function CardTable({ color }) {
         <img
           alt="Photo"
           src={url}
-          style={{ maxWidth: "150px", maxHeight: "150px" }} 
+          style={{ maxWidth: "150px", maxHeight: "150px" }}
         />
       ),
     },
@@ -202,6 +203,17 @@ export default function CardTable({ color }) {
       setAlbum(transformedData);
     } catch (error) {
       console.error("Error fetching photos:", error);
+    }
+  };
+
+  const deletePost = async (id) => {
+    try {
+      const response = await deletePosts(`/${id}`);
+      const detail = response.data;
+      alert("succes delete");
+      getAllPosts();
+    } catch (err) {
+      console.log(err);
     }
   };
 
