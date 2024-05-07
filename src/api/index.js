@@ -24,14 +24,23 @@ const get =
     });
   };
 
-const put = (api) => (data) => {
-  return axios.put(fullURL(api), data, {
-    method: "PUT",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-};
+const put =
+  (api) =>
+  async (param = "", data = {}) => {
+    try {
+      return await axios.put(
+        `${fullURL(api)}${param}`,
+        data, // Pass data directly
+        {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
+        }
+      );
+    } catch (err) {
+      throw err;
+    }
+  };
 
 const deletePost =
   (api) =>
